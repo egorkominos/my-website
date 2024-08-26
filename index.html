@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Фоновое изображение с наложением и центральным изображением</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: auto;
+        }
+        .container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            background-image: url('https://furman.top/uploads/posts/2022-08/1660159770_42-furman-top-p-chernii-fon-kvadratnii-krasivo-44.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        .overlay-image {
+            position: absolute;
+            top: 22%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 1273px;
+            height: 450px;
+            border: 0px solid #000;
+        }
+        .center-image {
+            position: absolute;
+            top: 37%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 520px;
+            height: auto;
+            border: 0px solid #000;
+        }
+        .movable-image {
+            position: absolute;
+            top: var(--image-top, 150%);
+            left: var(--image-left, 50%);
+            transform: translate(-400%, 190%);
+            width: 200px;
+            height: auto;
+            border: 0px solid #000;
+        }
+        .scroll-container {
+            position: absolute;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px; /* Ширина контейнера */
+            height: 200px; /* Высота контейнера */
+            overflow: hidden;
+            border: 0px solid #000;
+        }
+        .scroll-images {
+            display: flex;
+            width: 1500px; /* Общая ширина всех изображений вместе */
+            height: 100%; /* Высота равна высоте контейнера */
+            transition: transform 0.5s ease;
+        }
+        .scroll-images img {
+            width: 250px; /* Ширина одного изображения */
+            height: 250px; /* Высота одного изображения */
+        }
+        .scroll-buttons {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+        }
+        .scroll-buttons button {
+            background: #000;
+            color: #fff;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="https://furman.top/uploads/posts/2022-08/1659441039_31-furman-top-p-flag-ameriki-oboi-krasivo-33.jpg" class="overlay-image" alt="Наложенное изображение">
+        <img src="https://ltdfoto.ru/images/2024/08/26/FSB.png" class="center-image" alt="Центральное изображение">
+        <img src="https://ltdfoto.ru/images/2024/08/26/DUROVKA.png" class="movable-image" alt="Изображение с изменяемой позицией" style="--image-top: 30%; --image-left: 70%;">
+        <div class="scroll-container">
+            <div class="scroll-images" id="scroll-images">
+                <img src="https://ltdfoto.ru/images/2024/08/26/TETKA-MOTKA.jpg" alt="Изображение 1">
+                <img src="https://ltdfoto.ru/images/2024/08/26/DURAVAY.jpg" alt="Изображение 2">
+                <img src="https://ltdfoto.ru/images/2024/08/26/MAISUEBAL.jpg" alt="Изображение 3">
+            </div>
+            <div class="scroll-buttons">
+                <button onclick="scrollImages(-1)">‹</button>
+                <button onclick="scrollImages(1)">›</button>
+            </div>
+        </div>
+        <div class="content">
+            <p>Это дополнительный текст, который может быть прокручен вниз.</p>
+        </div>
+    </div>
+    <script>
+        let currentIndex = 0;
+
+        function scrollImages(direction) {
+            const imagesContainer = document.getElementById('scroll-images');
+            const totalImages = imagesContainer.children.length;
+            const imageSize = 250; /* Размер изображения */
+            const containerWidth = imageSize * totalImages;
+            
+            currentIndex = (currentIndex + direction + totalImages) % totalImages;
+            const offset = -currentIndex * imageSize;
+            
+            imagesContainer.style.transform = `translateX(${offset}px)`;
+        }
+    </script>
+</body>
+</html>
